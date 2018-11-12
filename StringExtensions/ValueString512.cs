@@ -5,7 +5,8 @@ using System.Text;
 
 namespace StringExtensions
 {
-    public struct ValueString512<T> : IValueStringBuffer, IEnumerable, IEquatable<ValueString512<T>>, IEquatable<ValueString256<T>>, IEquatable<ValueString128<T>>, IEquatable<ValueString64<T>>, IEquatable<ValueString32<T>>
+    public struct ValueString512<T> : IValueStringBuffer, IEnumerable, IEquatable<ValueString512<T>>, IEquatable<ValueString256<T>>, IEquatable<ValueString128<T>>, IEquatable<ValueString64<T>>, IEquatable<ValueString32<T>>,
+            IComparable<ValueString512<T>>, IComparable<ValueString256<T>>, IComparable<ValueString128<T>>, IComparable<ValueString64<T>>, IComparable<ValueString32<T>>
         where T: IValueStringHelper, new()
     {
         private ValueString256<T> char_1;
@@ -118,9 +119,35 @@ namespace StringExtensions
                 yield return this[i];
             }
         }
+
+        public int CompareTo(ValueString512<T> other)
+        {
+            return ValueStringOperations<T>.Helper.ValueCompare(this.Buffer, other.Buffer);
+        }
+
+        public int CompareTo(ValueString256<T> other)
+        {
+            return ValueStringOperations<T>.Helper.ValueCompare(this.Buffer, other.Buffer);
+        }
+
+        public int CompareTo(ValueString128<T> other)
+        {
+            return ValueStringOperations<T>.Helper.ValueCompare(this.Buffer, other.Buffer);
+        }
+
+        public int CompareTo(ValueString64<T> other)
+        {
+            return ValueStringOperations<T>.Helper.ValueCompare(this.Buffer, other.Buffer);
+        }
+
+        public int CompareTo(ValueString32<T> other)
+        {
+            return ValueStringOperations<T>.Helper.ValueCompare(this.Buffer, other.Buffer);
+        }
     }
 
-    public struct ValueString512 : IValueStringBuffer, IEnumerable, IEquatable<ValueString512>, IEquatable<ValueString256>, IEquatable<ValueString128>, IEquatable<ValueString64>, IEquatable<ValueString32>
+    public struct ValueString512 : IValueStringBuffer, IEnumerable, IEquatable<ValueString512>, IEquatable<ValueString256>, IEquatable<ValueString128>, IEquatable<ValueString64>, IEquatable<ValueString32>,
+        IComparable<ValueString512>, IComparable<ValueString256>, IComparable<ValueString128>, IComparable<ValueString64>, IComparable<ValueString32>
     {
         private ValueString256 char_1;
 
@@ -231,6 +258,31 @@ namespace StringExtensions
             {
                 yield return this[i];
             }
+        }
+
+        public int CompareTo(ValueString512 other)
+        {
+            return ValueStringOperations.Helper.ValueCompare(this.Buffer, other.Buffer);
+        }
+
+        public int CompareTo(ValueString256 other)
+        {
+            return ValueStringOperations.Helper.ValueCompare(this.Buffer, other.Buffer);
+        }
+
+        public int CompareTo(ValueString128 other)
+        {
+            return ValueStringOperations.Helper.ValueCompare(this.Buffer, other.Buffer);
+        }
+
+        public int CompareTo(ValueString64 other)
+        {
+            return ValueStringOperations.Helper.ValueCompare(this.Buffer, other.Buffer);
+        }
+
+        public int CompareTo(ValueString32 other)
+        {
+            return ValueStringOperations.Helper.ValueCompare(this.Buffer, other.Buffer);
         }
     }
 }
