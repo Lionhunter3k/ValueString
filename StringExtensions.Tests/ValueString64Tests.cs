@@ -39,5 +39,49 @@ namespace StringExtensions.Tests
             var size = Unsafe.SizeOf<ValueString64>();
             Assert.AreEqual(8, size);
         }
+
+        [Test]
+        public void HashCode_Should_Be_The_Same_For_Two_Objects_With_Same_Content()
+        {
+            var valueString1 = new ValueString64 { 'a', 'b', 'a', 'b' };
+            var valueString2 = new ValueString64 { 'a', 'b', 'a', 'b' };
+            Assert.AreEqual(valueString1.GetHashCode(), valueString2.GetHashCode());
+        }
+
+        [Test]
+        public void HashCode_Should_Not_Be_The_Same_For_Two_Objects_With_Different_Content()
+        {
+            var valueString1 = new ValueString64 { 'a', 'b', 'a', 'b' };
+            var valueString2 = new ValueString64 { 'a', 'b', 'e', 'b' };
+            Assert.AreNotEqual(valueString1.GetHashCode(), valueString2.GetHashCode());
+        }
+
+        [Test]
+        public void ToString_Should_Have_Same_Content_And_Length_As_Count()
+        {
+            var referenceString = "abce";
+            var valueString1 = new ValueString64();
+            foreach (var refChar in referenceString)
+            {
+                valueString1.Add(refChar);
+            }
+            var toString = valueString1.ToString();
+            Assert.AreEqual(referenceString, toString);
+            Assert.AreEqual(valueString1.Count, toString.Length);
+        }
+
+        [Test]
+        public void ToString_Should_Have_Same_Content_And_Length_As_Count_Partial_ValueString()
+        {
+            var referenceString = "awe";
+            var valueString1 = new ValueString64();
+            foreach (var refChar in referenceString)
+            {
+                valueString1.Add(refChar);
+            }
+            var toString = valueString1.ToString();
+            Assert.AreEqual(referenceString, toString);
+            Assert.AreEqual(valueString1.Count, toString.Length);
+        }
     }
 }
