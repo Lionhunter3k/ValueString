@@ -6,16 +6,32 @@ using System.Text;
 
 namespace StringExtensions
 {
+    public delegate int ValueCompareDelegate(ReadOnlySpan<char> obj1, ReadOnlySpan<char> obj2);
+
+    public delegate int GetHashCodeDelegate(ReadOnlySpan<char> obj);
+
+    public delegate bool ValueEqualsDelegate(ReadOnlySpan<char> obj1, ReadOnlySpan<char> obj2);
+
+    public delegate string GetHeapStringDelegate(ReadOnlySpan<char> valueString, int? length = null);
+
     public class DefaultValueStringHelper : IValueStringHelper
     {
-        public virtual int ValueCompare(ReadOnlySpan<char> obj1, ReadOnlySpan<char> obj2)
+        public ValueCompareDelegate ValueCompareFunc { get; set; }
+
+        public int ValueCompare(ReadOnlySpan<char> obj1, ReadOnlySpan<char> obj2)
         {
-            return obj1.SequenceCompareTo(obj2);
+            if(ValueCompareFunc == null)
+                return obj1.SequenceCompareTo(obj2);
+            return ValueCompareFunc(obj1, obj2);
         }
 
-        public virtual int GetHashCode(ReadOnlySpan<char> obj)
+        public GetHashCodeDelegate GetHashCodeFunc { get; set; }
+
+        public int GetHashCode(ReadOnlySpan<char> obj)
         {
-            return unchecked((int)Farmhash.Sharp.Farmhash.Hash32(MemoryMarshal.AsBytes(obj)));
+            if(GetHashCodeFunc == null)
+                return unchecked((int)Farmhash.Sharp.Farmhash.Hash32(MemoryMarshal.AsBytes(obj)));
+            return GetHashCodeFunc(obj);
             //if (obj.Length == 0)
             //    return string.Empty.GetHashCode();
             //var index = 0;
@@ -33,9 +49,13 @@ namespace StringExtensions
         //    return (((h1 << 5) + h1) ^ h2);
         //}
 
-        public virtual bool ValueEquals(ReadOnlySpan<char> obj1, ReadOnlySpan<char> obj2)
+        public ValueEqualsDelegate ValueEqualsFunc { get; set; }
+
+        public bool ValueEquals(ReadOnlySpan<char> obj1, ReadOnlySpan<char> obj2)
         {
-            return obj1.SequenceEqual(obj2);
+            if(ValueEqualsFunc == null)
+                return obj1.SequenceEqual(obj2);
+            return ValueEqualsFunc(obj1, obj2);
             //if (obj1.Length != obj2.Length)
             //    return false;
             //var pointerOf1 = 0;
@@ -51,6 +71,7 @@ namespace StringExtensions
         public virtual unsafe Span<char> CreateReference<TReadOnlyIndexedBuffer>(ref TReadOnlyIndexedBuffer valueString, int? length = null)
              where TReadOnlyIndexedBuffer : struct, IValueStringBuffer
         {
+
             var pointer = Unsafe.AsPointer(ref valueString);
             // now through the implicit casting convert to a span<byte>
             var span = new Span<char>(pointer, length.GetValueOrDefault(valueString.Count));
@@ -65,12 +86,18 @@ namespace StringExtensions
             return new string(pointer, 0, length.GetValueOrDefault(valueString.Count));
         }
 
-        public virtual unsafe string GetHeapString(ReadOnlySpan<char> valueString, int? length = null)
+        public GetHeapStringDelegate GetHeapStringFunc { get; set; }
+
+        public unsafe string GetHeapString(ReadOnlySpan<char> valueString, int? length = null)
         {
-            ref var refToFirstChar = ref MemoryMarshal.GetReference(valueString);
-            var pointer = (char*)Unsafe.AsPointer(ref refToFirstChar);
-            // now through the implicit casting convert to a span<byte>
-            return new string(pointer, 0, length.GetValueOrDefault(valueString.Length));
+            if(GetHeapStringFunc == null)
+            {
+                ref var refToFirstChar = ref MemoryMarshal.GetReference(valueString);
+                var pointer = (char*)Unsafe.AsPointer(ref refToFirstChar);
+                // now through the implicit casting convert to a span<byte>
+                return new string(pointer, 0, length.GetValueOrDefault(valueString.Length));
+            }
+            return GetHeapStringFunc(valueString, length);
         }
     }
 }
