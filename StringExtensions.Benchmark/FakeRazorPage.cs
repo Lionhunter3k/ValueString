@@ -17,12 +17,18 @@ namespace StringExtensions.Benchmark
             Model = model;
         }
 
-        public void Execute(TextWriter outputStream)
+        public Task ExecuteAsync(TextWriter outputStream)
         {
             this.currentOutputStream = outputStream;
+            return OnExecuteAsync();
         }
 
-        protected abstract void OnExecute();
+        protected Task DoSomethingAsync()
+        {
+            return Task.Delay(100);
+        }
+
+        protected abstract Task OnExecuteAsync();
 
         protected void WriteLiteral(string text)
         {

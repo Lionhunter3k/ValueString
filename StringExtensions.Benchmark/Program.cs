@@ -11,7 +11,6 @@ namespace StringExtensions.Benchmark
     {
         static readonly string directory = Directory.GetCurrentDirectory();
 
-
         public async Task FakeRazorWithHeapStringsInFile()
         {
             var albums = DataGenerator.CreateData();
@@ -19,7 +18,7 @@ namespace StringExtensions.Benchmark
             using (var fileStream = new FileStream(Path.Combine(directory, Guid.NewGuid().ToString()), FileMode.CreateNew))
             using (var streamWriter = new StreamWriter(fileStream))
             {
-                razorPage.Execute(streamWriter);
+                await razorPage.ExecuteAsync(streamWriter);
                 await streamWriter.FlushAsync();
                 await fileStream.FlushAsync();
             }
@@ -33,47 +32,37 @@ namespace StringExtensions.Benchmark
             using (var fileStream = new FileStream(Path.Combine(directory, Guid.NewGuid().ToString()), FileMode.CreateNew))
             using (var streamWriter = new StreamWriter(fileStream))
             {
-                razorPage.Execute(streamWriter);
+                await razorPage.ExecuteAsync(streamWriter);
                 await streamWriter.FlushAsync();
                 await fileStream.FlushAsync();
             }
         }
 
         [Benchmark]
-        public async Task FakeRazorWithHeapStringsInMemory()
+        public async Task<byte[]> FakeRazorWithHeapStringsInMemory()
         {
             var albums = DataGenerator.CreateData();
             var razorPage = new AlbumFakeRazorPage_Heap(albums);
             using (var memoryStream = new MemoryStream())
             using (var streamWriter = new StreamWriter(memoryStream))
             {
-                razorPage.Execute(streamWriter);
-                await streamWriter.FlushAsync();
-            }
-            using (var memoryStream = new MemoryStream())
-            using (var streamWriter = new StreamWriter(memoryStream))
-            {
-                razorPage.Execute(streamWriter);
-                await streamWriter.FlushAsync();
+                await razorPage.ExecuteAsync(streamWriter);
+                await memoryStream.FlushAsync();
+                return memoryStream.ToArray();
             }
         }
 
         [Benchmark]
-        public async Task FakeRazorWithStackStringsInMemory()
+        public async Task<byte[]> FakeRazorWithStackStringsInMemory()
         {
             var albums = DataGenerator.CreateData();
             var razorPage = new AlbumFakeRazorPage_Stack(albums);
             using (var memoryStream = new MemoryStream())
             using (var streamWriter = new StreamWriter(memoryStream))
             {
-                razorPage.Execute(streamWriter);
-                await streamWriter.FlushAsync();
-            }
-            using (var memoryStream = new MemoryStream())
-            using (var streamWriter = new StreamWriter(memoryStream))
-            {
-                razorPage.Execute(streamWriter);
-                await streamWriter.FlushAsync();
+                await razorPage.ExecuteAsync(streamWriter);
+                await memoryStream.FlushAsync();
+                return memoryStream.ToArray();
             }
         }
 

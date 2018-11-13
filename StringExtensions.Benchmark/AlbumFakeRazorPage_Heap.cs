@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StringExtensions.Benchmark
 {
@@ -10,7 +11,7 @@ namespace StringExtensions.Benchmark
         {
         }
 
-        protected override void OnExecute()
+        protected override async Task OnExecuteAsync()
         {
             WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n");
             WriteLiteral("\r\n    <title>");
@@ -47,24 +48,24 @@ namespace StringExtensions.Benchmark
                 WriteLiteral(Url.Action("Details", "Store",
                                 new { id = album.Id }));
 
-                //WriteLiteral("\"");
-                //WriteLiteral(">\r\n\r\n            <img");
-                //WriteLiteral(" alt=\"");
-                //WriteLiteral(album.Title);
-                //WriteLiteral("\"");
-                //WriteLiteral(" src=\"");
-                //WriteLiteral(album.AlbumArtUrl);
-                //WriteLiteral("\"");
-                //WriteLiteral(" />\r\n            <span>");
-                //WriteLiteral(album.Title);
-                //WriteLiteral("</span> </a>\r\n        </li>\r\n");
+                WriteLiteral("\"");
+                WriteLiteral(">\r\n\r\n            <img");
+                WriteLiteral(" alt=\"");
+                WriteLiteral(album.Title);
+                WriteLiteral("\"");
+                WriteLiteral(" src=\"");
+                WriteLiteral(album.AlbumArtUrl);
+                WriteLiteral("\"");
+                WriteLiteral(" />\r\n            <span>");
+                WriteLiteral(album.Title);
+                WriteLiteral("</span> </a>\r\n        </li>\r\n");
             }
 
-            //WriteLiteral("</ul>");
-            //WriteLiteral("\r\n    </div>\r\n\r\n    <div id=\"footer\">\r\n        built with <a href=\"http://asp.net/mvc\">ASP.NET MVC Core</a>\r\n    </div>\r\n");
+            WriteLiteral("</ul>");
+            WriteLiteral("\r\n    </div>\r\n\r\n    <div id=\"footer\">\r\n        built with <a href=\"http://asp.net/mvc\">ASP.NET MVC Core</a>\r\n    </div>\r\n");
 
 
-            //WriteLiteral("\r\n</html>");
+            WriteLiteral("\r\n</html>");
         }
     }
 }
