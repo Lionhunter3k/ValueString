@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace StringExtensions
@@ -19,6 +20,7 @@ namespace StringExtensions
 
         public int Count
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 if (char_1 == char.MinValue)
@@ -29,21 +31,22 @@ namespace StringExtensions
             }
         }
 
-        public ValueStringReference Reference { get => new ValueStringReference(ValueStringOperations<T>.Helper.CreateReference(ref this), ValueStringOperations<T>.Helper); set => value.Buffer.CopyTo(ValueStringOperations<T>.Helper.CreateReference(ref this, Length)); }
+        public ValueStringReference Reference { [MethodImpl(MethodImplOptions.AggressiveInlining)]get => new ValueStringReference(ValueStringOperations<T>.Helper.CreateReference(ref this), ValueStringOperations<T>.Helper); set => value.Buffer.CopyTo(ValueStringOperations<T>.Helper.CreateReference(ref this, Length)); }
 
-        public bool TryAdd(char value)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Add(char value)
         {
-            switch (Count)
+            if (Count == 0)
             {
-                case 0:
-                    char_1 = value;
-                    return true;
-                case 1:
-                    char_2 = value;
-                    return true;
-                default:
-                    return false;
+                char_1 = value;
+                return true;
             }
+            if (Count == 1)
+            {
+                char_2 = value;
+                return true;
+            }
+            return false;
         }
 
         public char this[int index]
@@ -133,12 +136,6 @@ namespace StringExtensions
             char_2 = char.MinValue;
         }
 
-        public void Add(char value)
-        {
-            if (!TryAdd(value))
-                throw new InvalidOperationException();
-        }
-
         public bool Remove(char value)
         {
             if (char_1 == char.MinValue)
@@ -206,6 +203,7 @@ namespace StringExtensions
 
         public int Count
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 if (char_1 == char.MinValue)
@@ -216,21 +214,22 @@ namespace StringExtensions
             }
         }
 
-        public ValueStringReference Reference { get => new ValueStringReference(ValueStringOperations.Helper.CreateReference(ref this)); set => value.Buffer.CopyTo(ValueStringOperations.Helper.CreateReference(ref this, Length)); }
+        public ValueStringReference Reference { [MethodImpl(MethodImplOptions.AggressiveInlining)]get => new ValueStringReference(ValueStringOperations.Helper.CreateReference(ref this)); set => value.Buffer.CopyTo(ValueStringOperations.Helper.CreateReference(ref this, Length)); }
 
-        public bool TryAdd(char value)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Add(char value)
         {
-            switch (Count)
+            if (Count == 0)
             {
-                case 0:
-                    char_1 = value;
-                    return true;
-                case 1:
-                    char_2 = value;
-                    return true;
-                default:
-                    return false;
+                char_1 = value;
+                return true;
             }
+            if(Count == 1)
+            {
+                char_2 = value;
+                return true;
+            }
+            return false;
         }
 
         public char this[int index]
@@ -318,12 +317,6 @@ namespace StringExtensions
         {
             char_1 = char.MinValue;
             char_2 = char.MinValue;
-        }
-
-        public void Add(char value)
-        {
-            if (!TryAdd(value))
-                throw new InvalidOperationException();
         }
 
         public bool Remove(char value)

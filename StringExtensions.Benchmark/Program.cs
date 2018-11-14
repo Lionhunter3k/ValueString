@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -11,10 +12,13 @@ namespace StringExtensions.Benchmark
     {
         static readonly string directory = Directory.GetCurrentDirectory();
 
+        //static readonly List<Album> albums = DataGenerator.CreateData();
+
+        [Benchmark]
         public async Task FakeRazorWithHeapStringsInFile()
         {
             var albums = DataGenerator.CreateData();
-            var razorPage = new AlbumFakeRazorPage_Heap(albums);
+            var razorPage = new AlbumFakeRazorPage_Heap(albums, false);
             using (var fileStream = new FileStream(Path.Combine(directory, Guid.NewGuid().ToString()), FileMode.CreateNew))
             using (var streamWriter = new StreamWriter(fileStream))
             {
@@ -24,11 +28,11 @@ namespace StringExtensions.Benchmark
             }
         }
 
-
+        [Benchmark]
         public async Task FakeRazorWithStackStringsInFile()
         {
             var albums = DataGenerator.CreateData();
-            var razorPage = new AlbumFakeRazorPage_Stack(albums);
+            var razorPage = new AlbumFakeRazorPage_Stack(albums, false);
             using (var fileStream = new FileStream(Path.Combine(directory, Guid.NewGuid().ToString()), FileMode.CreateNew))
             using (var streamWriter = new StreamWriter(fileStream))
             {
@@ -39,30 +43,54 @@ namespace StringExtensions.Benchmark
         }
 
         [Benchmark]
-        public async Task<byte[]> FakeRazorWithHeapStringsInMemory()
+        public async Task FakeRazorWithHeapStringsInMemory()
         {
             var albums = DataGenerator.CreateData();
-            var razorPage = new AlbumFakeRazorPage_Heap(albums);
+            var razorPage = new AlbumFakeRazorPage_Heap(albums, false);
             using (var memoryStream = new MemoryStream())
             using (var streamWriter = new StreamWriter(memoryStream))
             {
                 await razorPage.ExecuteAsync(streamWriter);
                 await memoryStream.FlushAsync();
-                return memoryStream.ToArray();
             }
         }
 
         [Benchmark]
-        public async Task<byte[]> FakeRazorWithStackStringsInMemory()
+        public async Task FakeRazorWithStackStringsInMemory()
         {
             var albums = DataGenerator.CreateData();
-            var razorPage = new AlbumFakeRazorPage_Stack(albums);
+            var razorPage = new AlbumFakeRazorPage_Stack(albums, false);
             using (var memoryStream = new MemoryStream())
             using (var streamWriter = new StreamWriter(memoryStream))
             {
                 await razorPage.ExecuteAsync(streamWriter);
                 await memoryStream.FlushAsync();
-                return memoryStream.ToArray();
+            }
+        }
+
+        [Benchmark]
+        public async Task FakeRazorWithHeapStringsInMemoryAsync()
+        {
+            var albums = DataGenerator.CreateData();
+            var razorPage = new AlbumFakeRazorPage_Heap(albums, true);
+            using (var memoryStream = new MemoryStream())
+            using (var streamWriter = new StreamWriter(memoryStream))
+            {
+                await razorPage.ExecuteAsync(streamWriter);
+                await memoryStream.FlushAsync();
+            }
+        }
+
+        [Benchmark]
+        public async Task FakeRazorWithStackStringsInMemoryAsync()
+        {
+            var albums = DataGenerator.CreateData();
+            var razorPage = new AlbumFakeRazorPage_Stack(albums, true);
+            using (var memoryStream = new MemoryStream())
+            using (var streamWriter = new StreamWriter(memoryStream))
+            {
+                await razorPage.ExecuteAsync(streamWriter);
+                await memoryStream.FlushAsync();
             }
         }
 

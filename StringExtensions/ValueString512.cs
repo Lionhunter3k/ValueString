@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace StringExtensions
@@ -17,13 +18,21 @@ namespace StringExtensions
 
         public ReadOnlySpan<char> Buffer => ValueStringOperations<T>.Helper.CreateReference(ref this);
 
-        public int Count => char_1.Count + char_2.Count;
-
-        public ValueStringReference Reference { get => new ValueStringReference(ValueStringOperations<T>.Helper.CreateReference(ref this), ValueStringOperations<T>.Helper); set => value.Buffer.CopyTo(ValueStringOperations<T>.Helper.CreateReference(ref this, Length)); }
-
-        public bool TryAdd(char value)
+        public int Count
         {
-            return char_1.TryAdd(value) || char_2.TryAdd(value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return char_1.Count + char_2.Count; ;
+            }
+        }
+
+        public ValueStringReference Reference { [MethodImpl(MethodImplOptions.AggressiveInlining)]get => new ValueStringReference(ValueStringOperations<T>.Helper.CreateReference(ref this), ValueStringOperations<T>.Helper); set => value.Buffer.CopyTo(ValueStringOperations<T>.Helper.CreateReference(ref this, Length)); }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Add(char value)
+        {
+            return char_1.Add(value) || char_2.Add(value);
         }
 
         public char this[int index]
@@ -101,12 +110,6 @@ namespace StringExtensions
             char_2.Clear();
         }
 
-        public void Add(char value)
-        {
-            if (!TryAdd(value))
-                throw new InvalidOperationException();
-        }
-
         public bool Remove(char value)
         {
             return char_1.Remove(value) || char_2.Remove(value);
@@ -157,13 +160,21 @@ namespace StringExtensions
 
         public ReadOnlySpan<char> Buffer => ValueStringOperations.Helper.CreateReference(ref this);
 
-        public int Count => char_1.Count + char_2.Count;
-
-        public ValueStringReference Reference { get => new ValueStringReference(ValueStringOperations.Helper.CreateReference(ref this)); set => value.Buffer.CopyTo(ValueStringOperations.Helper.CreateReference(ref this, Length)); }
-
-        public bool TryAdd(char value)
+        public int Count
         {
-            return char_1.TryAdd(value) || char_2.TryAdd(value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return char_1.Count + char_2.Count; ;
+            }
+        }
+
+        public ValueStringReference Reference { [MethodImpl(MethodImplOptions.AggressiveInlining)]get => new ValueStringReference(ValueStringOperations.Helper.CreateReference(ref this)); set => value.Buffer.CopyTo(ValueStringOperations.Helper.CreateReference(ref this, Length)); }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Add(char value)
+        {
+            return char_1.Add(value) || char_2.Add(value);
         }
 
         public char this[int index]
@@ -239,12 +250,6 @@ namespace StringExtensions
         {
             char_1.Clear();
             char_2.Clear();
-        }
-
-        public void Add(char value)
-        {
-            if (!TryAdd(value))
-                throw new InvalidOperationException();
         }
 
         public bool Remove(char value)

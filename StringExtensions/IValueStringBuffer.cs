@@ -6,11 +6,11 @@ namespace StringExtensions
 {
     public interface IValueStringBuffer
     {
-        bool TryAdd(char value);
+        //bool TryAdd(char value);
 
         void Clear();
 
-        void Add(char value);
+        bool Add(char value);
 
         bool Remove(char value);
 

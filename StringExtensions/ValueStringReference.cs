@@ -19,6 +19,7 @@ namespace StringExtensions
             this.helper = helper;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object obj)
         {
             if (!(obj is IValueStringBuffer objValueString))
@@ -26,11 +27,13 @@ namespace StringExtensions
             return helper.ValueEquals(this.Buffer, objValueString.Buffer);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
             return helper.GetHashCode(Buffer);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString()
         {
             return helper.GetHeapString(Buffer);
@@ -40,8 +43,9 @@ namespace StringExtensions
 
         public int Length => Buffer.Length;
 
-        public ReadOnlySpan<char> Buffer { get; }
+        public ReadOnlySpan<char> Buffer { [MethodImpl(MethodImplOptions.AggressiveInlining)]get; }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(ValueStringReference other)
         {
             return helper.ValueEquals(Buffer, other.Buffer);

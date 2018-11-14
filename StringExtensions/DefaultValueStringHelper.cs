@@ -18,6 +18,7 @@ namespace StringExtensions
     {
         public ValueCompareDelegate ValueCompareFunc { get; set; }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int ValueCompare(ReadOnlySpan<char> obj1, ReadOnlySpan<char> obj2)
         {
             if(ValueCompareFunc == null)
@@ -27,6 +28,7 @@ namespace StringExtensions
 
         public GetHashCodeDelegate GetHashCodeFunc { get; set; }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int GetHashCode(ReadOnlySpan<char> obj)
         {
             if(GetHashCodeFunc == null)
@@ -51,6 +53,7 @@ namespace StringExtensions
 
         public ValueEqualsDelegate ValueEqualsFunc { get; set; }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool ValueEquals(ReadOnlySpan<char> obj1, ReadOnlySpan<char> obj2)
         {
             if(ValueEqualsFunc == null)
@@ -68,7 +71,8 @@ namespace StringExtensions
             //return true;
         }
 
-        public virtual unsafe Span<char> CreateReference<TReadOnlyIndexedBuffer>(ref TReadOnlyIndexedBuffer valueString, int? length = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe Span<char> CreateReference<TReadOnlyIndexedBuffer>(ref TReadOnlyIndexedBuffer valueString, int? length = null)
              where TReadOnlyIndexedBuffer : struct, IValueStringBuffer
         {
 
@@ -78,7 +82,8 @@ namespace StringExtensions
             return span;
         }
 
-        public virtual unsafe string GetHeapString<TReadOnlyIndexedBuffer>(ref TReadOnlyIndexedBuffer valueString, int? length = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe string GetHeapString<TReadOnlyIndexedBuffer>(ref TReadOnlyIndexedBuffer valueString, int? length = null)
            where TReadOnlyIndexedBuffer : struct, IValueStringBuffer
         {
             var pointer = (char*)Unsafe.AsPointer(ref valueString);
@@ -88,6 +93,7 @@ namespace StringExtensions
 
         public GetHeapStringDelegate GetHeapStringFunc { get; set; }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe string GetHeapString(ReadOnlySpan<char> valueString, int? length = null)
         {
             if(GetHeapStringFunc == null)
