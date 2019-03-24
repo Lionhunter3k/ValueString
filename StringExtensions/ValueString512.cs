@@ -14,9 +14,23 @@ namespace StringExtensions
 
         private ValueString256<T> char_2;
 
-        public int Length => char_1.Length + char_2.Length;
+        public int Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return 32;
+            }
+        }
 
-        public ReadOnlySpan<char> Buffer => ValueStringOperations<T>.Helper.CreateReference(ref this);
+        public ReadOnlySpan<char> Buffer
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return ValueStringOperations<T>.Helper.CreateReference(ref this);
+            }
+        }
 
         public int Count
         {
@@ -156,9 +170,23 @@ namespace StringExtensions
 
         private ValueString256 char_2;
 
-        public int Length => char_1.Length + char_2.Length;
+        public int Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return 32;
+            }
+        }
 
-        public ReadOnlySpan<char> Buffer => ValueStringOperations.Helper.CreateReference(ref this);
+        public ReadOnlySpan<char> Buffer
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return ValueStringOperations.Helper.CreateReference(ref this);
+            }
+        }
 
         public int Count
         {

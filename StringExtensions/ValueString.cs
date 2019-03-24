@@ -9,8 +9,8 @@ namespace StringExtensions
     public struct ValueString<TValueString1, TValueString2, T>
     : IValueStringBuffer, IEnumerable, IEquatable<ValueString<TValueString1, TValueString2, T>>, IEquatable<ValueString512<T>>, IEquatable<ValueString256<T>>, IEquatable<ValueString128<T>>, IEquatable<ValueString64<T>>, IEquatable<ValueString32<T>>,
       IComparable<ValueString<TValueString1, TValueString2, T>>, IComparable<ValueString512<T>>, IComparable<ValueString256<T>>, IComparable<ValueString128<T>>, IComparable<ValueString64<T>>, IComparable<ValueString32<T>>
-    where TValueString1 : IValueStringBuffer
-    where TValueString2 : IValueStringBuffer
+    where TValueString1 : struct, IValueStringBuffer
+    where TValueString2 : struct, IValueStringBuffer
     where T : IValueStringHelper, new()
     {
         private TValueString1 char_1;
@@ -171,8 +171,8 @@ namespace StringExtensions
     public struct ValueString<TValueString1, TValueString2>
         : IValueStringBuffer, IEnumerable, IEquatable<ValueString<TValueString1, TValueString2>>, IEquatable<ValueString512>, IEquatable<ValueString256>, IEquatable<ValueString128>, IEquatable<ValueString64>, IEquatable<ValueString32>,
           IComparable<ValueString<TValueString1, TValueString2>>, IComparable<ValueString512>, IComparable<ValueString256>, IComparable<ValueString128>, IComparable<ValueString64>, IComparable<ValueString32>
-        where TValueString1 : IValueStringBuffer
-        where TValueString2 : IValueStringBuffer
+        where TValueString1 : struct, IValueStringBuffer
+        where TValueString2 : struct, IValueStringBuffer
     {
         private TValueString1 char_1;
 

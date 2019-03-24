@@ -12,8 +12,6 @@ namespace StringExtensions.Benchmark
     {
         static readonly string directory = Directory.GetCurrentDirectory();
 
-        //static readonly List<Album> albums = DataGenerator.CreateData();
-
         [Benchmark]
         public async Task FakeRazorWithHeapStringsInFile()
         {
@@ -33,6 +31,34 @@ namespace StringExtensions.Benchmark
         {
             var albums = DataGenerator.CreateData();
             var razorPage = new AlbumFakeRazorPage_Stack(albums, false);
+            using (var fileStream = new FileStream(Path.Combine(directory, Guid.NewGuid().ToString()), FileMode.CreateNew))
+            using (var streamWriter = new StreamWriter(fileStream))
+            {
+                await razorPage.ExecuteAsync(streamWriter);
+                await streamWriter.FlushAsync();
+                await fileStream.FlushAsync();
+            }
+        }
+
+        [Benchmark]
+        public async Task FakeRazorWithHeapStringsInFileAsync()
+        {
+            var albums = DataGenerator.CreateData();
+            var razorPage = new AlbumFakeRazorPage_Heap(albums, true);
+            using (var fileStream = new FileStream(Path.Combine(directory, Guid.NewGuid().ToString()), FileMode.CreateNew))
+            using (var streamWriter = new StreamWriter(fileStream))
+            {
+                await razorPage.ExecuteAsync(streamWriter);
+                await streamWriter.FlushAsync();
+                await fileStream.FlushAsync();
+            }
+        }
+
+        [Benchmark]
+        public async Task FakeRazorWithStackStringsInFileAsync()
+        {
+            var albums = DataGenerator.CreateData();
+            var razorPage = new AlbumFakeRazorPage_Stack(albums, true);
             using (var fileStream = new FileStream(Path.Combine(directory, Guid.NewGuid().ToString()), FileMode.CreateNew))
             using (var streamWriter = new StreamWriter(fileStream))
             {

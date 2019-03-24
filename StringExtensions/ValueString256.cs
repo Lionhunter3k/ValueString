@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace StringExtensions
 {
@@ -14,9 +12,23 @@ namespace StringExtensions
 
         private ValueString128<T> char_2;
 
-        public int Length => char_1.Length + char_2.Length;
+        public int Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return 16;
+            }
+        }
 
-        public ReadOnlySpan<char> Buffer => ValueStringOperations<T>.Helper.CreateReference(ref this);
+        public ReadOnlySpan<char> Buffer
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return ValueStringOperations<T>.Helper.CreateReference(ref this);
+            }
+        }
 
         public int Count
         {
@@ -156,9 +168,23 @@ namespace StringExtensions
 
         private ValueString128 char_2;
 
-        public int Length => char_1.Length + char_2.Length;
+        public int Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return 16;
+            }
+        }
 
-        public ReadOnlySpan<char> Buffer => ValueStringOperations.Helper.CreateReference(ref this);
+        public ReadOnlySpan<char> Buffer
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return ValueStringOperations.Helper.CreateReference(ref this);
+            }
+        }
 
         public int Count
         {

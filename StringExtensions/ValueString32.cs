@@ -14,9 +14,23 @@ namespace StringExtensions
 
         private char char_2;
 
-        public int Length => 2;
+        public int Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return 2;
+            }
+        }
 
-        public ReadOnlySpan<char> Buffer => ValueStringOperations<T>.Helper.CreateReference(ref this);
+        public ReadOnlySpan<char> Buffer
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return ValueStringOperations<T>.Helper.CreateReference(ref this);
+            }
+        }
 
         public int Count
         {
@@ -36,12 +50,13 @@ namespace StringExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Add(char value)
         {
-            if (Count == 0)
+            var count = Count;
+            if (count == 0)
             {
                 char_1 = value;
                 return true;
             }
-            if (Count == 1)
+            if (count == 1)
             {
                 char_2 = value;
                 return true;
@@ -197,9 +212,23 @@ namespace StringExtensions
 
         private char char_2;
 
-        public int Length => 2;
+        public int Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return 2;
+            }
+        }
 
-        public ReadOnlySpan<char> Buffer => ValueStringOperations.Helper.CreateReference(ref this);
+        public ReadOnlySpan<char> Buffer
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return ValueStringOperations.Helper.CreateReference(ref this);
+            }
+        }
 
         public int Count
         {
@@ -219,12 +248,13 @@ namespace StringExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Add(char value)
         {
-            if (Count == 0)
+            var count = Count;
+            if (count == 0)
             {
                 char_1 = value;
                 return true;
             }
-            if(Count == 1)
+            if(count == 1)
             {
                 char_2 = value;
                 return true;
