@@ -17,4 +17,19 @@ namespace StringExtensions.Benchmark
         public Genre Genre { get; set; }
         public Artist Artist { get; set; }
     }
+
+    public class Genre
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
+        public string Name { get; set; }
+    }
+
+    public class Artist
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
+        public string Name { get; set; }
+    }
+
 }

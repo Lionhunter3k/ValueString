@@ -9,13 +9,21 @@ Frequency=3914061 Hz, Resolution=255.4891 ns, Timer=TSC
 
 
 ```
-|                                 Method |        Mean |        Error |         StdDev |      Median | Gen 0/1k Op | Gen 1/1k Op | Gen 2/1k Op | Allocated Memory/Op |
-|--------------------------------------- |------------:|-------------:|---------------:|------------:|------------:|------------:|------------:|--------------------:|
-|         FakeRazorWithHeapStringsInFile | 59,934.5 us | 2,779.931 us |  8,109.1880 us | 60,710.4 us |           - |           - |           - |           153.77 KB |
-|        FakeRazorWithStackStringsInFile | 69,695.0 us | 2,023.337 us |  5,902.1678 us | 70,546.2 us |           - |           - |           - |           132.63 KB |
-|    FakeRazorWithHeapStringsInFileAsync | 77,069.0 us | 2,439.516 us |  7,192.9684 us | 78,089.4 us |           - |           - |           - |            57.33 KB |
-|   FakeRazorWithStackStringsInFileAsync | 79,685.1 us | 8,245.299 us | 24,182.0349 us | 71,102.9 us |           - |           - |           - |            57.33 KB |
-|       FakeRazorWithHeapStringsInMemory |    645.5 us |     1.161 us |      0.9063 us |    645.7 us |     66.4063 |           - |           - |           275.65 KB |
-|      FakeRazorWithStackStringsInMemory |  1,151.4 us |     3.379 us |      3.1610 us |  1,150.5 us |     60.5469 |      1.9531 |           - |           254.51 KB |
-|  FakeRazorWithHeapStringsInMemoryAsync | 15,577.2 us |    53.651 us |     50.1853 us | 15,581.2 us |     62.5000 |           - |           - |            56.73 KB |
-| FakeRazorWithStackStringsInMemoryAsync | 15,560.6 us |   117.027 us |    109.4669 us | 15,557.7 us |     62.5000 |           - |           - |            56.73 KB |
+|                                           Method |        Mean |        Error |       StdDev | Gen 0/1k Op | Gen 1/1k Op | Gen 2/1k Op | Allocated Memory/Op |
+|------------------------------------------------- |------------:|-------------:|-------------:|------------:|------------:|------------:|--------------------:|
+|                   FakeRazorWithHeapStringsInFile | 66,259.1 us | 2,743.488 us | 8,046.175 us |           - |           - |           - |           292.51 KB |
+|                  FakeRazorWithStackStringsInFile | 69,427.7 us | 3,192.552 us | 9,363.201 us |           - |           - |           - |           271.37 KB |
+|              FakeRazorWithHeapStringsInFileAsync | 82,344.3 us | 2,587.530 us | 7,588.777 us |           - |           - |           - |           196.07 KB |
+|             FakeRazorWithStackStringsInFileAsync | 72,037.4 us | 2,527.259 us | 6,875.595 us |           - |           - |           - |           196.29 KB |
+|                 FakeRazorWithHeapStringsInMemory |    702.3 us |     3.010 us |     2.816 us |    124.0234 |     41.0156 |     41.0156 |           542.42 KB |
+|                FakeRazorWithStackStringsInMemory |  1,209.4 us |     7.130 us |     6.669 us |    123.0469 |     41.0156 |     41.0156 |           521.28 KB |
+|            FakeRazorWithHeapStringsInMemoryAsync | 15,660.0 us |   145.103 us |   135.730 us |    109.3750 |     31.2500 |     31.2500 |           195.48 KB |
+|           FakeRazorWithStackStringsInMemoryAsync | 17,875.1 us |   356.356 us |   743.847 us |     93.7500 |     31.2500 |     31.2500 |           195.48 KB |
+|         StackModelFakeRazorWithHeapStringsInFile | 67,595.6 us | 2,646.837 us | 7,720.947 us |    111.1111 |           - |           - |           634.36 KB |
+|        StackModelFakeRazorWithStackStringsInFile | 68,352.1 us | 2,052.189 us | 5,986.331 us |    142.8571 |           - |           - |           613.22 KB |
+|    StackModelFakeRazorWithHeapStringsInFileAsync | 79,605.9 us | 2,480.672 us | 7,275.381 us |           - |           - |           - |           537.92 KB |
+|   StackModelFakeRazorWithStackStringsInFileAsync | 76,260.6 us | 2,916.991 us | 8,600.814 us |    142.8571 |           - |           - |           537.92 KB |
+|       StackModelFakeRazorWithHeapStringsInMemory |    802.2 us |     1.269 us |     1.060 us |    131.8359 |     52.7344 |           - |           756.24 KB |
+|      StackModelFakeRazorWithStackStringsInMemory |  1,401.5 us |     4.950 us |     4.388 us |    140.6250 |     68.3594 |           - |            735.1 KB |
+|  StackModelFakeRazorWithHeapStringsInMemoryAsync | 15,769.4 us |   300.445 us |   308.535 us |    125.0000 |     31.2500 |           - |           537.33 KB |
+| StackModelFakeRazorWithStackStringsInMemoryAsync | 19,022.6 us |   376.581 us |   760.713 us |    125.0000 |     31.2500 |           - |           537.33 KB |

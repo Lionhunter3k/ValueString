@@ -25,7 +25,7 @@ namespace StringExtensions.Benchmark
 
         protected Task DoSomethingAsync()
         {
-            return Task.Delay(2);
+            return Task.Delay(10);
         }
 
         protected abstract Task OnExecuteAsync();
